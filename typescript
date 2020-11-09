@@ -1,0 +1,39 @@
+Script started on Mon 09 Nov 2020 04:59:08 AM UTC
+[01;32mvocstartsoft[00m:[01;34m~/environment/work/lang/hangman/hw-sinatra-saas-hangperson[00m (master) $ typescriptrspec spec/hangperson_game_spec.rb
+Run options: exclude {:pending=>true}
+
+HangpersonGame
+  new
+[32m    takes a parameter and returns a HangpersonGame object[0m
+  guessing
+    correctly
+[32m      changes correct guess list[0m
+[32m      returns true[0m
+    incorrectly
+[32m      changes wrong guess list[0m
+[32m      returns true[0m
+    same letter repeatedly
+[32m      does not change correct guess list[0m
+[32m      does not change wrong guess list[0m
+[32m      returns false[0m
+[32m      is case insensitive[0m
+    invalid
+[32m      throws an error when empty[0m
+[32m      throws an error when not a letter[0m
+[32m      throws an error when nil[0m
+  displayed word with guesses
+[32m    should be 'b-n-n-' when guesses are 'bn'[0m
+[32m    should be '------' when guesses are 'def'[0m
+[32m    should be 'banana' when guesses are 'ban'[0m
+  game status
+[32m    should be win when all letters guessed[0m
+[32m    should be lose after 7 incorrect guesses[0m
+[32m    should continue play if neither win nor lose[0m
+
+Finished in 0.01789 seconds (files took 0.44968 seconds to load)
+[32m18 examples, 0 failures[0m
+
+[01;32mvocstartsoft[00m:[01;34m~/environment/work/lang/hangman/hw-sinatra-saas-hangperson[00m (master) $ exit
+exit
+
+Script done on Mon 09 Nov 2020 04:59:19 AM UTC
