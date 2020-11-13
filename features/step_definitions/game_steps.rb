@@ -1,3 +1,6 @@
+require 'webmock/cucumber'
+WebMock.disable_net_connect!(:allow_localhost => true)
+
 require 'uri'
 require 'cgi'
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
@@ -10,10 +13,10 @@ end
 World(WithinHelpers)
 
 When /^I start a new game with word "(.*)"$/ do |word|
-  stub_request(:post, "http://watchout4snakes.com/wo4snakes/Random/RandomWord").
-    to_return(:status => 200, :headers => {}, :body => word)
+  stub_request(:post, "http://watchout4snakes.com/Random/RandomWord").
+  to_return(:status => 200, :headers => {}, :body => word)
   visit '/new'
-  click_button "New Game"
+  click_button("New Game")
 end
 
 When /^I guess "(.*)"(?: again)?$/ do |letter|

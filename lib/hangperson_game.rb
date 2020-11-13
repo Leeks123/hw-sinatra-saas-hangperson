@@ -27,8 +27,8 @@ class HangpersonGame
     @wrong_guesses  
   end
   
+  
   def guess(letter)
-    @count+=1
     
     if letter.nil?
       raise ArgumentError
@@ -39,12 +39,14 @@ class HangpersonGame
     end
     
     if letter.upcase == letter
+      @count+=1
       return false
     end
     
     if @word.include?letter # 정답에 포함될때
     
       if @word_with_guesses.include?letter # 이미 한번 추측한 문자는 제외
+        # @count+=1
         return false
       end
       
@@ -56,9 +58,14 @@ class HangpersonGame
       end
       return true
     else
-      return false if @wrong_guesses==letter
-      @wrong_guesses=letter
-      return true # spec 45~46
+      if @wrong_guesses==letter
+        # @count+=1
+        return false 
+      else
+        @wrong_guesses=letter
+        @count+=1
+        return true # spec 45~46
+      end
     end
   end
   
@@ -75,10 +82,9 @@ class HangpersonGame
   def self.get_random_word
     require 'uri'
     require 'net/http'
-    uri = URI('http://watchout4snakes.com/wo4snakes/Random/RandomWord')
+    uri = URI('http://watchout4snakes.com/Random/RandomWord')
     Net::HTTP.new('watchout4snakes.com').start { |http|
-      return http.post(uri, "").body
-    }
+      return http.post(uri, "").body    }
   end
 
 end
