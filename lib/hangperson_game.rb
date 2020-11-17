@@ -27,6 +27,9 @@ class HangpersonGame
     @wrong_guesses  
   end
   
+  def count
+    @count
+  end
   
   def guess(letter)
     

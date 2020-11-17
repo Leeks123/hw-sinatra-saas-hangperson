@@ -1,39 +1,92 @@
-Script started on Mon 09 Nov 2020 04:59:08 AM UTC
-[01;32mvocstartsoft[00m:[01;34m~/environment/work/lang/hangman/hw-sinatra-saas-hangperson[00m (master) $ typescriptrspec spec/hangperson_game_spec.rb
-Run options: exclude {:pending=>true}
+Script started on Tue 17 Nov 2020 04:26:31 PM UTC
+[01;32mvocstartsoft[00m:[01;34m~/environment/work/lang/hangman/hw-sinatra-saas-hangperson[00m (master) $ cucumberr[K
+Feature: game over
+  
+  As a player playing Hangperson
+  So I can get back to my life 
+  I want to know when the game is over
 
-HangpersonGame
-  new
-[32m    takes a parameter and returns a HangpersonGame object[0m
-  guessing
-    correctly
-[32m      changes correct guess list[0m
-[32m      returns true[0m
-    incorrectly
-[32m      changes wrong guess list[0m
-[32m      returns true[0m
-    same letter repeatedly
-[32m      does not change correct guess list[0m
-[32m      does not change wrong guess list[0m
-[32m      returns false[0m
-[32m      is case insensitive[0m
-    invalid
-[32m      throws an error when empty[0m
-[32m      throws an error when not a letter[0m
-[32m      throws an error when nil[0m
-  displayed word with guesses
-[32m    should be 'b-n-n-' when guesses are 'bn'[0m
-[32m    should be '------' when guesses are 'def'[0m
-[32m    should be 'banana' when guesses are 'ban'[0m
-  game status
-[32m    should be win when all letters guessed[0m
-[32m    should be lose after 7 incorrect guesses[0m
-[32m    should continue play if neither win nor lose[0m
+  Scenario: game over because I guess the word[90m   # features/game_over.feature:7[0m
+    [32mGiven I start a new game with word "[32m[1mfoobar[0m[0m[32m"[90m  # features/step_definitions/game_steps.rb:15[0m[0m
+    [32mWhen I make the following guesses:[32m[1m f,o,b,a,r[0m[0m[32m[90m # features/step_definitions/game_steps.rb:28[0m[0m
+    [32mThen I should see "[32m[1mYou Win![0m[0m[32m"[90m                 # features/step_definitions/game_steps.rb:74[0m[0m
 
-Finished in 0.01789 seconds (files took 0.44968 seconds to load)
-[32m18 examples, 0 failures[0m
+  Scenario: game over because I run out of guesses[90m # features/game_over.feature:13[0m
+    [32mGiven I start a new game with word "[32m[1mzebra[0m[0m[32m"[90m     # features/step_definitions/game_steps.rb:15[0m[0m
+    [32mWhen I make the following guesses:[32m[1m t,u,v,w,x,y[0m[0m[32m[90m # features/step_definitions/game_steps.rb:28[0m[0m
+    [32mAnd I guess "[32m[1md[0m[0m[32m"[90m                                # features/step_definitions/game_steps.rb:22[0m[0m
+    [32mThen I should see "[32m[1mSorry, you lose![0m[0m[32m"[90m           # features/step_definitions/game_steps.rb:74[0m[0m
 
+Feature: guess correct letter
+  
+  As a player playing Hangperson
+  So that I can make progress toward the goal
+  I want to see when my guess is correct
+
+  Scenario: guess correct letter that occurs once[90m # features/guess.feature:7[0m
+    [32mGiven I start a new game with word "[32m[1mgarply[0m[0m[32m"[90m   # features/step_definitions/game_steps.rb:15[0m[0m
+    [32mWhen I guess "[32m[1mr[0m[0m[32m"[90m                              # features/step_definitions/game_steps.rb:22[0m[0m
+    [32mThen I should see "[32m[1mr[0m[0m[32m" within "[32m[1mspan.word[0m[0m[32m"[90m      # features/step_definitions/game_steps.rb:74[0m[0m
+
+  Scenario: guess correct letter that occurs multiple times[90m # features/guess.feature:13[0m
+    [32mGiven I start a new game with word "[32m[1manimal[0m[0m[32m"[90m             # features/step_definitions/game_steps.rb:15[0m[0m
+    [32mWhen I guess "[32m[1ma[0m[0m[32m"[90m                                        # features/step_definitions/game_steps.rb:22[0m[0m
+    [32mThen I should see "[32m[1ma---a-[0m[0m[32m" within "[32m[1mspan.word[0m[0m[32m"[90m           # features/step_definitions/game_steps.rb:74[0m[0m
+
+  Scenario: guess incorrect letter[90m                 # features/guess.feature:19[0m
+    [32mGiven I start a new game with word "[32m[1mxylophone[0m[0m[32m"[90m # features/step_definitions/game_steps.rb:15[0m[0m
+    [32mWhen I guess "[32m[1ma[0m[0m[32m"[90m                               # features/step_definitions/game_steps.rb:22[0m[0m
+    [32mThen I should see "[32m[1ma[0m[0m[32m" within "[32m[1mspan.guesses[0m[0m[32m"[90m    # features/step_definitions/game_steps.rb:74[0m[0m
+
+  Scenario: multiple correct and incorrect guesses[90m # features/guess.feature:25[0m
+    [32mGiven I start a new game with word "[32m[1mfoobar[0m[0m[32m"[90m    # features/step_definitions/game_steps.rb:15[0m[0m
+    [32mWhen I make the following guesses:[32m[1m a,z,x,o[0m[0m[32m[90m     # features/step_definitions/game_steps.rb:28[0m[0m
+    [32mThen the word should read "[32m[1m-oo-a-[0m[0m[32m"[90m             # features/step_definitions/game_steps.rb:36[0m[0m
+    [32mAnd the wrong guesses should include:[32m[1m z,x[0m[0m[32m[90m      # features/step_definitions/game_steps.rb:40[0m[0m
+
+Feature: guess repeated letter
+  
+  As a player playing Hangperson
+  So that I can avoid wasting guesses on letters I've already tried
+  I want to be informed when I guess a letter I've already tried
+
+  Scenario: guess correct letter that I have already tried[90m # features/repeated_guess.feature:7[0m
+    [32mGiven I start a new game with word "[32m[1mbumblebee[0m[0m[32m"[90m         # features/step_definitions/game_steps.rb:15[0m[0m
+    [32mWhen I guess "[32m[1mb[0m[0m[32m"[90m                                       # features/step_definitions/game_steps.rb:22[0m[0m
+    [32mAnd I guess "[32m[1mb[0m[0m[32m" again[90m                                  # features/step_definitions/game_steps.rb:22[0m[0m
+    [32mThen the word should read "[32m[1mb--b--b--[0m[0m[32m"[90m                  # features/step_definitions/game_steps.rb:36[0m[0m
+    [32mAnd I should see "[32m[1mYou have already used that letter[0m[0m[32m"[90m   # features/step_definitions/game_steps.rb:74[0m[0m
+
+  Scenario: guess incorrect letter that I have already tried[90m # features/repeated_guess.feature:15[0m
+    [32mGiven I start a new game with word "[32m[1mgiraffe[0m[0m[32m"[90m             # features/step_definitions/game_steps.rb:15[0m[0m
+    [32mWhen I guess "[32m[1mz[0m[0m[32m"[90m                                         # features/step_definitions/game_steps.rb:22[0m[0m
+    [32mAnd I guess "[32m[1mz[0m[0m[32m" again[90m                                    # features/step_definitions/game_steps.rb:22[0m[0m
+    [32mThen the word should read "[32m[1m-------[0m[0m[32m"[90m                      # features/step_definitions/game_steps.rb:36[0m[0m
+    [32mAnd I should see "[32m[1mYou have already used that letter[0m[0m[32m"[90m     # features/step_definitions/game_steps.rb:74[0m[0m
+
+  Scenario: guessing an incorrect letter does not count towards guesses[90m # features/repeated_guess.feature:23[0m
+    [32mGiven I start a new game with word "[32m[1msnake[0m[0m[32m"[90m                          # features/step_definitions/game_steps.rb:15[0m[0m
+    [32mWhen I guess "[32m[1mz[0m[0m[32m" [32m[1m30[0m[0m[32m times in a row[90m                                  # features/step_definitions/game_steps.rb:49[0m[0m
+    [32mThen I should be on [32m[1mthe show page[0m[0m[32m[90m                                   # features/step_definitions/game_steps.rb:65[0m[0m
+
+Feature: start new game
+  
+  As a player
+  So I can play Hangperson
+  I want to start a new game
+
+  Scenario: I start a new game[90m         # features/start_new_game.feature:7[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m        # features/step_definitions/game_steps.rb:61[0m[0m
+    [32mAnd I press "[32m[1mNew Game[0m[0m[32m"[90m             # features/step_definitions/game_steps.rb:84[0m[0m
+    [32mThen I should see "[32m[1mGuess a letter[0m[0m[32m"[90m # features/step_definitions/game_steps.rb:74[0m[0m
+    [32mAnd I press "[32m[1mNew Game[0m[0m[32m"[90m             # features/step_definitions/game_steps.rb:84[0m[0m
+    [32mThen I should see "[32m[1mGuess a letter[0m[0m[32m"[90m # features/step_definitions/game_steps.rb:74[0m[0m
+
+10 scenarios ([32m10 passed[0m)
+38 steps ([32m38 passed[0m)
+0m0.411s
+Coverage report generated for Cucumber Features to /home/ec2-user/environment/work/lang/hangman/hw-sinatra-saas-hangperson/coverage. 78 / 85 LOC (91.76%) covered.
 [01;32mvocstartsoft[00m:[01;34m~/environment/work/lang/hangman/hw-sinatra-saas-hangperson[00m (master) $ exit
 exit
 
-Script done on Mon 09 Nov 2020 04:59:19 AM UTC
+Script done on Tue 17 Nov 2020 04:26:42 PM UTC

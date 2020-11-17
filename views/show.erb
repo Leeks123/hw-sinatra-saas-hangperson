@@ -4,11 +4,26 @@
    </div>
 <% end %>
 
+<% if @game.count == 0 %>
+  <img src="/Hangman-0.png" />
+<% elsif @game.count == 1 %>
+  <img src="/Hangman-1.png" />
+<% elsif @game.count == 2 %>
+  <img src="/Hangman-2.png" />
+<% elsif @game.count == 3 %>
+  <img src="/Hangman-3.png" />
+<% elsif @game.count == 4 %>
+  <img src="/Hangman-4.png" />
+<% elsif @game.count == 5 %>
+  <img src="/Hangman-5.png" />
+<% elsif @game.count == 6 %>
+  <img src="/Hangman-6.png" />
+<% end %>
+
 <div class="alert alert-warning">
   <p class="lead">
     Wrong Guesses:
     <span class="guesses"><%= @game.wrong_guesses %></span><br/>
-    <span class="word"><%= @game.word %></span>
   </p>
 </div>
 
